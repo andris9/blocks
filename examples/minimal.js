@@ -2,12 +2,15 @@
 // olemasoleva API kasutamist
 
 // värvib alumise parema ruudu roheliseks
+// setBlock(X, Y, [color])
 setBlock(boardWidth - 1, boardHeight - 1, "green");
 
 // väljastab alumise parema ruudu värvi
-console.log(setBlock(boardWidth - 1, boardHeight - 1));
+// getBlock(X, Y) -> color | false
+console.log(getBlock(boardWidth - 1, boardHeight - 1));
 
 // tühjendab ülemise vasaku ruudu
+// clearBlock(X, Y)
 clearBlock(0, 0);
 
 // Mida teha kui vajutatakse klahvile
