@@ -7,6 +7,7 @@ let snake = [
 
 // Alguse liikumise suund ("LEFT", "RIGHT", "UP", "DOWN")
 let direction = "RIGHT";
+let lastDirection = direction;
 
 // Joonistame ümbritseva kasti.
 // boardWidth: number, mitu klotsi on X teljel
@@ -51,25 +52,25 @@ handleKeyPress(function(key) {
     case "ArrowUp":
     case "KeyW":
       // väldi vastassuunda keeramist mis tähendaks kohest mängu lõppu
-      if (direction !== "DOWN") {
+      if (lastDirection !== "DOWN") {
         direction = "UP";
       }
       break;
     case "ArrowDown":
     case "KeyS":
-      if (direction !== "UP") {
+      if (lastDirection !== "UP") {
         direction = "DOWN";
       }
       break;
     case "ArrowLeft":
     case "KeyA":
-      if (direction !== "RIGHT") {
+      if (lastDirection !== "RIGHT") {
         direction = "LEFT";
       }
       break;
     case "ArrowRight":
     case "KeyD":
-      if (direction !== "LEFT") {
+      if (lastDirection !== "LEFT") {
         direction = "RIGHT";
       }
       break;
@@ -84,6 +85,7 @@ setGameLoop(200, function() {
   // Leiame ussi pea X ja Y koordinaadid
   let [x, y] = snake[snake.length - 1];
 
+  lastDirection = direction;
   // Kontrollime hetke suunda ja arvutame järgmise koordinaadi
   switch (direction) {
     case "UP":
