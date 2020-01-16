@@ -18,6 +18,9 @@
   let filledMap = new Map();
 
   function setBlock(x, y, color) {
+    x = Math.round(Number(x) || 0);
+    y = Math.round(Number(y) || 0);
+
     if (x < 0 || y < 0 || x >= lineWidth || y >= lineHeight) {
       // out of bounds
       console.log("out of bounds", x, y);
@@ -43,22 +46,22 @@
   }
 
   function clearBlock(x, y) {
+    x = Math.round(Number(x) || 0);
+    y = Math.round(Number(y) || 0);
     setBlock(x, y, "#fff");
   }
 
   function getBlock(x, y) {
-    console.log(
-      filledMap.has(x) && filledMap.get(x).has(y),
-      filledMap.has(x) && filledMap.get(x).has(y)
-        ? filledMap.get(x).get(y)
-        : false
-    );
+    x = Math.round(Number(x) || 0);
+    y = Math.round(Number(y) || 0);
     return filledMap.has(x) && filledMap.get(x).has(y)
       ? filledMap.get(x).get(y)
       : false;
   }
 
   function writeText(x, y, text, color) {
+    x = Math.round(Number(x) || 0);
+    y = Math.round(Number(y) || 0);
     if (x < 0 || y < 0 || x >= lineWidth || y >= lineHeight) {
       // out of bounds
       console.log("out of bounds", x, y);
