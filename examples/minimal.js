@@ -2,6 +2,9 @@
 // olemasoleva API kasutamist
 
 // värvib alumise parema ruudu roheliseks
+// X, Y koordinaadid on näha mängualas iga bloki juures
+// X kasutatav vahemik on 0...(boardWidth - 1)
+// Y kasutatav vahemik on 0...(boardHeight - 1)
 // setBlock(X, Y, [color])
 setBlock(boardWidth - 1, boardHeight - 1, "green");
 
