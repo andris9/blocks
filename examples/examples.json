@@ -1,0 +1,14 @@
+{
+  "scripts": [
+    {
+      "name": "Ussimäng",
+      "script": "snake.js",
+      "default": true
+    },
+
+    {
+      "name": "Minimaalne näide",
+      "script": "minimal.js"
+    }
+  ]
+}

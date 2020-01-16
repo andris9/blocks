@@ -226,11 +226,60 @@
   window.boardHeight = lineHeight;
   window.random = random;
 
-  fetch("game.js")
+  fetch("examples/examples.json")
     .then(response => {
-      return response.text();
+      return response.json();
     })
-    .then(text => {
-      editor.setValue(text);
+    .then(examples => {
+      let listElm = document.getElementById("list");
+      listElm.innerHTML = '<option value=""> ––– Vali näidis ––– </option>';
+      examples.scripts.forEach(script => {
+        let optionElm = document.createElement("option");
+        optionElm.setAttribute("value", script.script);
+        optionElm.textContent = script.name;
+        if (script.default) {
+          optionElm.selected = true;
+        }
+        listElm.appendChild(optionElm);
+      });
+
+      let updating = false;
+      let updateScript = () => {
+        let script = listElm.value;
+        loadScript(script);
+      };
+
+      let loadScript = script => {
+        if (updating) {
+          return;
+        }
+        updating = true;
+
+        if (!script) {
+          editor.setValue(
+            "// Kirjuta oma skript siia või vali listist näidis\n"
+          );
+          updating = false;
+          return;
+        }
+
+        fetch("examples/" + script)
+          .then(response => {
+            return response.text();
+          })
+          .then(example => {
+            updating = false;
+            editor.setValue(example);
+          })
+          .catch(err => {
+            editor.setValue(err.message);
+            updating = false;
+          });
+      };
+
+      listElm.addEventListener("change", updateScript);
+      listElm.addEventListener("click", updateScript);
+
+      updateScript();
     });
 })();

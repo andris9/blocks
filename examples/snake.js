@@ -50,19 +50,28 @@ handleKeyPress(function(key) {
       break;
     case "ArrowUp":
     case "KeyW":
-      direction = "UP";
+      // väldi vastassuunda keeramist mis tähendaks kohest mängu lõppu
+      if (direction !== "DOWN") {
+        direction = "UP";
+      }
       break;
     case "ArrowDown":
     case "KeyS":
-      direction = "DOWN";
+      if (direction !== "UP") {
+        direction = "DOWN";
+      }
       break;
     case "ArrowLeft":
     case "KeyA":
-      direction = "LEFT";
+      if (direction !== "RIGHT") {
+        direction = "LEFT";
+      }
       break;
     case "ArrowRight":
     case "KeyD":
-      direction = "RIGHT";
+      if (direction !== "LEFT") {
+        direction = "RIGHT";
+      }
       break;
   }
   return;
@@ -71,7 +80,7 @@ handleKeyPress(function(key) {
 // Mida teha, kui toimub mängu uue seisu arvutamine.
 // Esimene parameeter on kiirus (millisekundid seisu arvutamise vahel).
 // Teine on funktsioon, mis pannakse käima seisu arvutamiseks
-setGameLoop(500, function() {
+setGameLoop(200, function() {
   // Leiame ussi pea X ja Y koordinaadid
   let [x, y] = snake[snake.length - 1];
 
