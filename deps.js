@@ -194,8 +194,7 @@
     if (e.target.type === "textarea") {
       return;
     }
-    console.log(e);
-    console.log(e.code);
+    e.preventDefault();
     document.getElementById("key").textContent = e.code;
     if (typeof keyPressCb === "function") {
       keyPressCb(e.code);
