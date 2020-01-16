@@ -147,12 +147,12 @@
   let stop = () => {
     clearTimeout(loopTimer);
     looping = false;
-    document.getElementById("status").textContent = "Paused";
+    document.getElementById("status").textContent = "No";
   };
 
   let start = () => {
     clearTimeout(loopTimer);
-
+    clear();
     if (!started) {
       let code = editor.getValue();
       started = true;
