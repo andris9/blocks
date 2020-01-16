@@ -1,38 +1,81 @@
-// alguse koordinaadid
-let x = 6;
-let y = 6;
+// Massiiv ussi lülidega, kus "pea" on massiivi lõpus ja "saba" selle alguses
+let snake = [
+  [6, 6],
+  [7, 6],
+  [8, 6]
+];
 
-// alguse liikumise suund
+// Alguse liikumise suund ("LEFT", "RIGHT", "UP", "DOWN")
 let direction = "RIGHT";
 
-// täidame alguse ruud, siit hakkab uss kasvama
-fillRect(x, y);
+// Joonistame ümbritseva kasti.
+// boardWidth: number, mitu klotsi on X teljel
+// boardHeight: number, mitu klotsi on Y teljel
+for (let i = 0; i < boardWidth; i++) {
+  // ülemine joon
+  setBlock(i, 0, "red");
+  // alumine joon
+  setBlock(i, boardHeight - 1, "red");
+}
+for (let i = 0; i < boardHeight; i++) {
+  // vasak joon
+  setBlock(0, i, "red");
+  // parem joon
+  setBlock(boardWidth - 1, i, "red");
+}
 
-// mida teha kui vajutatakse klahvile
+// Funktsioon uue juurvilja lisamiseks
+function addFruit() {
+  let x, y;
+  while (true) {
+    // Otsime nii kaua, kuni leiame sellise X ja Y koordinaadi,
+    // mis on parasjagu mängulaual vabad
+    x = random(boardWidth); // juhuslik number vahemikus 0...(boardWidth-1)
+    y = random(boardHeight); // juhuslik number vahemikus 0...(boardHeight-1)
+    if (!getBlock(x, y)) {
+      // leidsime vaba koha!
+      break;
+    }
+  }
+  // juurviljaks on lihtsalt rohelist värvi blokk
+  setBlock(x, y, "green");
+}
+
+// Mida teha kui vajutatakse klahvile
 handleKeyPress(function(key) {
-  // kontrollime, et mis klahvi vajutati ja määrame vastava suuna
+  // Kontrollime, et mis klahvi vajutati ja määrame vastava suuna
   switch (key) {
+    case "Escape":
+      stop(); // stop() peatab mängu
+      break;
     case "ArrowUp":
+    case "KeyW":
       direction = "UP";
       break;
     case "ArrowDown":
+    case "KeyS":
       direction = "DOWN";
       break;
     case "ArrowLeft":
+    case "KeyA":
       direction = "LEFT";
       break;
     case "ArrowRight":
+    case "KeyD":
       direction = "RIGHT";
       break;
   }
   return;
 });
 
-// mida teha, kui toimub mängu uue seisu arvutamine
-// esimene parameeter on kiirus
-// teine on funktsioon, mis pannakse käima seisu arvutamiseks
-setGameLoop(100, function() {
-  // kontrollime hetke suunda ja arvutame järgmise koordinaadi
+// Mida teha, kui toimub mängu uue seisu arvutamine.
+// Esimene parameeter on kiirus (millisekundid seisu arvutamise vahel).
+// Teine on funktsioon, mis pannakse käima seisu arvutamiseks
+setGameLoop(500, function() {
+  // Leiame ussi pea X ja Y koordinaadid
+  let [x, y] = snake[snake.length - 1];
+
+  // Kontrollime hetke suunda ja arvutame järgmise koordinaadi
   switch (direction) {
     case "UP":
       y = y - 1;
@@ -48,15 +91,35 @@ setGameLoop(100, function() {
       break;
   }
 
-  // kontrollime et kas koordinaat pole juba täidetud
-  if (isFilled(x, y) === true) {
-    // kui koordinaadil on juba piksel, siis on mäng läbi
+  // Kontrollime kas eeldatud positsioonil pole juurvili
+  if (getBlock(x, y) === "green") {
+    // Leidsime juurvilja!
+    // Vana süüakse ära, nii et on vaja lisada uus.
+    addFruit();
+  }
+  // Kontrollime et kas koordinaat pole juba täidetud
+  else if (getBlock(x, y)) {
+    // Kui koordinaadil on juba blokk olemas, siis on mäng läbi
     alert("Game over!");
-    stop();
+    stop(); // stop() peatab mängu
     return;
+  } else {
+    // Kustuta saba viimane lüli
+    let lastPos = snake.shift();
+    clearBlock(lastPos[0], lastPos[1]); // tühjendab bloki sisu
   }
 
-  // täidame arvutatud koordinaadi
-  fillRect(x, y);
+  // Lisame ussi pea uue lüli
+  snake.push([x, y]);
+
+  // Täidame arvutatud koordinaadi
+  setBlock(x, y);
   return;
 });
+
+// Mängu algus. Lisame ussi lülid lehele
+for (let i = 0; i < snake.length; i++) {
+  setBlock(snake[i][0], snake[i][1]);
+}
+
+addFruit();

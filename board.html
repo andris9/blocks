@@ -4,22 +4,63 @@
     <meta charset="utf-8" />
     <title>Game</title>
     <style>
+      body{
+        font-family: sans-serif;
+        font-size: 12px;
+      }
+
+      .row {
+        display: flex;
+      }
+
+      .item {
+        margin: 20px 0 20px 20px;
+      }
+
       #container {
         width: 641px;
         height: 481px;
-        padding: 0;
-        margin: 50px auto;
         padding: 5px;
         border: 1px solid #ccc;
+      }
+
+      #editor {
+        width: 653px;
+        height: 493px;
+      }
+
+      .info{
+        font-family: monospace;
+        color: #444;
       }
     </style>
   </head>
   <body>
-    <div id="container">
-      <canvas id="board" width="641" height="481"></canvas>
+    <div class="row">
+      <div class="item">
+        <div id="editor"></div>
+        <div>
+          <button type="button" id="start">Start</button>
+          <button type="button" id="stop">Stop</button>
+          <button type="button" id="clear">Clear board</button>
+
+          <span>Running:</span> </span><span class="info" id="status">No</span> |
+          <span>Last key:</span> </span><span class="info" id="key"></span>
+        </div>
+
+      </div>
+      <div class="item">
+        <div id="container">
+          <canvas id="board" width="641" height="481"></canvas>
+        </div>
+      </div>
     </div>
 
+    <script
+      src="/ace/src-min-noconflict/ace.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
     <script src="deps.js"></script>
-    <script src="game.js"></script>
   </body>
 </html>
